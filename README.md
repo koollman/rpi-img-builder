@@ -9,6 +9,9 @@ Applications:
 * Patiobar ... [Web interface](https://github.com/pyavitz/Patiobar)
 * Bluez
 
+Recommend:
+* SSH Button ... [Android App](https://play.google.com/store/apps/details?id=com.pd7l.sshbutton&hl=en_US)
+
 ### Headless Usage:
 ```sh
 ssh ipaddress '~/bin/start'
