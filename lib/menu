@@ -1,0 +1,55 @@
+#!/bin/bash
+### DO NOT EDIT
+RED="\e[0;31m"
+FIN="\e[0m"
+DIALOG_CANCEL=1
+DIALOG_ESC=255
+HEIGHT=0
+WIDTH=0
+
+display_result() {
+  dialog --title "$1" \
+    --no-collapse \
+    --msgbox "$result" 0 0
+}
+
+while true; do
+  exec 3>&1
+  selection=$(dialog --colors \
+    --backtitle "Raspberry Pi Image Builder" \
+    --title "Boards" \
+    --clear \
+    --cancel-label "Exit" \
+    --menu "Select:" $HEIGHT $WIDTH 2 \
+    "1" "Raspberry Pi 4B" \
+    "2" "Raspberry Pi 3B/+" \
+    2>&1 1>&3)
+  exit_status=$?
+  exec 3>&-;
+  case $exit_status in
+    $DIALOG_CANCEL)
+      clear
+      echo -e "${RED}Program terminated.${FIN}"
+      exit
+      ;;
+    $DIALOG_ESC)
+      clear
+      echo -e "${RED}Program aborted.${FIN}" >&2
+      exit 1
+      ;;
+  esac
+  case $selection in
+    0 )
+      clear
+      echo -e "%{RED}Program terminated.${FIN}"
+      ;;
+    1 )
+      chmod +x lib/rpi4
+      ./lib/rpi4
+      ;;
+    2 )
+      chmod +x lib/rpi3
+      ./lib/rpi3
+      ;;
+  esac
+done

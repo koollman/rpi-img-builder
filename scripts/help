@@ -1,0 +1,77 @@
+#!/bin/bash
+
+RED="\e[1;31m"
+HELP="\e[1;33m"
+FIN="\e[0m"
+
+rpi3 () {
+echo
+echo -e "${RED}Downloading ...${FIN}"
+wget -cq --show-progress https://github.com/pyavitz/rpi-img-builder/releases/download/linux/rpi3-stable.tar.xz
+wget -cq --show-progress https://github.com/pyavitz/rootfs-tarballs/releases/download/xlrootfs/debian-buster-rootfs-aarch64.tar.xz
+echo -e "${RED}Done.${FIN}"
+echo
+echo -e "${RED}Extracting and setting up directory.${FIN}"
+tar xf rpi3-stable.tar.xz
+rm -f rpi3-stable.tar.xz
+mv rpi3-stable rpi3
+echo -e "${RED}Ready.${FIN}"
+}
+
+rpi4 () {
+echo
+echo -e "${RED}Downloading ...${FIN}"
+wget -cq --show-progress https://github.com/pyavitz/rpi-img-builder/releases/download/linux/rpi4-stable.tar.xz
+wget -cq --show-progress https://github.com/pyavitz/rootfs-tarballs/releases/download/xlrootfs/debian-buster-rootfs-aarch64.tar.xz
+echo -e "${RED}Done.${FIN}"
+echo
+echo -e "${RED}Extracting and setting up directory.${FIN}"
+tar xf rpi4-stable.tar.xz
+rm -f rpi4-stable.tar.xz
+mv rpi4-stable rpi4
+echo -e "${RED}Ready.${FIN}"
+}
+
+if [ $# -eq 0 ]
+then
+        echo -e "\e[0;31mMissing options!${FIN}"
+        echo "(run $0 -h for help)"
+        echo ""
+        exit 0
+fi
+
+ECHO="false"
+
+while getopts "234h" OPTION; do
+        case $OPTION in
+
+                3)
+                        ECHO="rpi3"
+                        ;;
+                4)
+                        ECHO="rpi4"
+                        ;;
+                h)                       
+                        echo "Help, downloads a binary Linux package and XL rootfs tarball."
+                        echo "Make sure to run 'make config' before 'make image'."
+                        echo ""
+                        echo -e "   make 2710        Raspberry Pi 3b/+"
+                        echo -e "   make 2711        Raspberry Pi 4b"
+                        echo ""
+                        exit 0
+                        ;;
+
+        esac
+done
+if [ $ECHO = "rpi" ]
+then
+        rpi;
+fi
+if [ $ECHO = "rpi3" ]
+then
+        rpi3;
+fi
+if [ $ECHO = "rpi4" ]
+then
+        rpi4;
+fi

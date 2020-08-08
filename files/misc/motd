@@ -1,0 +1,18 @@
+NOTICE: Before executing run-setup, make sure you are connected to the internet.
+
+Execute: run-setup
+
+run-setup will ask and perform the following:
+		Locales, Timezone, Keyboard and install Patiobar.
+
+Simple wifi helper
+
+swh -h
+
+   -s       Scan for SSID's
+   -u       Bring up interface
+   -d       Bring down interface
+   -r       Restart interface
+   -W       Edit wpa supplicant
+   -I       Edit interfaces
+

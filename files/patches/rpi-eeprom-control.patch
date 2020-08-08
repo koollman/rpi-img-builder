@@ -1,0 +1,12 @@
+--- a/debian/control	2020-06-03 19:40:45.000000000 -0400
++++ b/debian/control	2020-06-15 14:38:16.914955549 -0400
+@@ -10,8 +10,7 @@
+ 
+ Package: rpi-eeprom
+ Architecture: all
+-Depends: ${shlibs:Depends}, ${misc:Depends}, rpi-eeprom-images, libraspberrypi-bin,
+- python, binutils, raspberrypi-bootloader (>= 1.20190819), pciutils
++Depends: ${shlibs:Depends}, ${misc:Depends}, rpi-eeprom-images, python, binutils, pciutils
+ Breaks: rpi-eeprom-images (<<7.2)
+ Replaces: rpi-eeprom-images (<<7.2)
+ Recommends: flashrom
