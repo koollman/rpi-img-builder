@@ -2,12 +2,12 @@
 
 Turns the Pi into a headless Pandora Music Player / Bluetooth Audio Receiver
 
+`Target Device: Raspberry Pi 3A+`
+
 Applications:
 * Pianobar ... [Console client](https://github.com/PromyLOPh/pianobar)
 * Patiobar ... [Web interface](https://github.com/pyavitz/Patiobar)
 * Bluez
-
-`Target Device: Raspberry Pi 3A+`
 
 ### Headless Usage:
 ```sh
