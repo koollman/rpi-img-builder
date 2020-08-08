@@ -5,7 +5,6 @@ DEF="../defconfig"
 PAT="../patches"
 CC="../patches/cc"
 NC="../patches/nc"
-ML="../patches/ml"
 
 CORES=`nproc`
 KERNEL="linux-rpi"
@@ -35,4 +34,4 @@ FIRMWARE="firmware-linux"
 EEPROM_VERSION="7.9"
 
 # motd
-BRAND="Raspberry Pi"
+BRAND="Musicbox"
