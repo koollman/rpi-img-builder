@@ -24,7 +24,7 @@ ssh ipaddress '~/bin/unmute'
 
 The boards that are currently supported are;
 * Raspberry Pi 4B (bcm2711)
-* Raspberry Pi 3/A/B/+ (bcm2710)
+* Raspberry Pi 3A/B/+ (bcm2710)
 
 ## Dependencies
 
