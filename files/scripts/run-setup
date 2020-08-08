@@ -25,5 +25,5 @@ echo
 cat ~/.config/pianobar/config
 echo
 echo export PATH="$PATH" >> ~/.bashrc
-echo and execute 'start' to test.
+echo and execute: start
 sudo rm -f /usr/local/bin/run-setup
