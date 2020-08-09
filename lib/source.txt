@@ -11,8 +11,8 @@ KERNEL="linux-rpi"
 # do not edit above this line
 
 # stage1
-IMGSIZE="2550MB"
-IMGSIZE_UNSTABLE="2675MB"
+IMGSIZE="2600MB"
+IMGSIZE_UNSTABLE="2725MB"
 
 PKGS1="tzdata keyboard-configuration sudo man-db dbus initramfs-tools \
 	e2fsprogs fonty-rg patch curl wget apt-transport-https dirmngr \
