@@ -15,12 +15,15 @@ Recommend:
 
 ### Headless Usage:
 ```sh
-ssh ipaddress '~/bin/start'
-ssh ipaddress '~/bin/stop'
-ssh ipaddress '~/bin/volup'
-ssh ipaddress '~/bin/voldn'
-ssh ipaddress '~/bin/mute'
-ssh ipaddress '~/bin/unmute'
+Create keygen: ssh-keygen
+Copy to target device: ssh-copy-id user@ipaddress
+
+ssh user@ipaddress '~/bin/start'
+ssh user@ipaddress '~/bin/stop'
+ssh user@ipaddress '~/bin/volup'
+ssh user@ipaddress '~/bin/voldn'
+ssh user@ipaddress '~/bin/mute'
+ssh user@ipaddress '~/bin/unmute'
 ```
 ---
 
