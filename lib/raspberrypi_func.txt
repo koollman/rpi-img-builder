@@ -921,7 +921,8 @@ chown -R root:root /usr/local/bin/
 tee /etc/systemd/system/autopair.service <<EOF
 [Unit]
 Description=Auto Pair
-After=bluetooth.target
+Requires=bluetooth.service
+After=bluetooth.service
 Before=rc-local.service
 ConditionPathExists=/usr/local/bin/autopair
 
