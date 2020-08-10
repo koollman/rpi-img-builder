@@ -331,6 +331,7 @@ echo
 echo Adding patiobar bins
 unzip -qq user-bin.zip -d /home/${user}/
 rm -f user-bin.zip
+chmod +x /home/${user}/bin/*
 chown -R ${user}:${user} /home/${user}
 echo Done.
 
