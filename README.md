@@ -28,9 +28,6 @@ Host musicbox
 ```
 ```sh
 nano ~/.config/musicbox_func.txt
-musicbox (){
-firefox -P Musicbox http://musicbox.local:3000
-}
 start (){
 ssh musicbox '~/bin/start'
 }
