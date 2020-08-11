@@ -54,8 +54,6 @@ ssh musicbox '~/bin/unmute'
 nano ~/.bashrc
 source  ~/.config/musicbox_func.txt
 ```
-There are many other ways you can accomplish the above, this is just the way I tend to roll with it.
-I also take it a step further and create launchers on my panel that execute the above commands.
 
 ---
 
