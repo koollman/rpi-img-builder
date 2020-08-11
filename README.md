@@ -17,14 +17,46 @@
 ```sh
 Create keygen: ssh-keygen
 Copy to target device: ssh-copy-id user@ipaddress
-
-ssh user@ipaddress '~/bin/start'
-ssh user@ipaddress '~/bin/stop'
-ssh user@ipaddress '~/bin/volup'
-ssh user@ipaddress '~/bin/voldn'
-ssh user@ipaddress '~/bin/mute'
-ssh user@ipaddress '~/bin/unmute'
 ```
+```sh
+nano ~/.ssh/config
+Host musicbox
+        User username
+        HostName ipaddress
+        Port 22
+        ForwardX11 no
+```
+```sh
+nano ~/.config/musicbox_func.txt
+musicbox (){
+firefox -P Musicbox http://musicbox.local:3000
+}
+start (){
+ssh musicbox '~/bin/start'
+}
+stop (){
+ssh musicbox '~/bin/stop'
+}
+volup (){
+ssh musicbox '~/bin/volup'
+}
+voldn (){
+ssh musicbox '~/bin/voldn'
+}
+mute (){
+ssh musicbox '~/bin/mute'
+}
+unmute (){
+ssh musicbox '~/bin/unmute'
+}
+```
+```sh
+nano ~/.bashrc
+source  ~/.config/musicbox_func.txt
+```
+There are many other ways you can accomplish the above, this is just the way I tend to roll with it.
+I also take it a step further and create launchers on my panel that execute the above commands.
+
 ---
 
 ## Debian Image Builder for the Raspberry Pi 
