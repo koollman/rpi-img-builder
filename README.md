@@ -57,6 +57,8 @@ ssh musicbox '~/bin/unmute'
 nano ~/.bashrc
 source  ~/.config/musicbox_func.txt
 ```
+You can also map a bluetooth remote or controller and use the `~/bin/scripts` to control the Pi / Pianobar.
+The following [link](https://raspberry-valley.azurewebsites.net/Map-Bluetooth-Controller-using-Python/) explains the basics.
 
 ---
 
