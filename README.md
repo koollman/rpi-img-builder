@@ -34,6 +34,9 @@ ssh musicbox '~/bin/start'
 stop (){
 ssh musicbox '~/bin/stop'
 }
+next (){
+ssh musicbox '~/bin/next'
+}
 volup (){
 ssh musicbox '~/bin/volup'
 }
