@@ -1,6 +1,6 @@
 ## Musicbox
 
-***Turns the Pi into a headless Pandora Music Player / Bluetooth Audio Receiver***
+***Turn the Pi into a headless Pandora Music Player / Bluetooth Audio Receiver***
 
 `Target Device: Raspberry Pi 3A+`
 
