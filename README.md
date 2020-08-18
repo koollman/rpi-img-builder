@@ -37,6 +37,9 @@ ssh musicbox '~/bin/stop'
 play (){    # play/pause
 ssh musicbox '~/bin/play'
 }
+song (){
+ssh musicbox '~/bin/song'
+}
 next (){
 ssh musicbox '~/bin/next'
 }
