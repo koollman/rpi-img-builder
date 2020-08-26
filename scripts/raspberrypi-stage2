@@ -46,7 +46,6 @@ mkdir -p /usr/local/bin
 mkdir -p /usr/local/sbin
 # Scripts
 mv -f run-setup /usr/local/bin/
-mv -f set-governor /usr/local/bin/
 mv -f sysinfo /usr/local/bin/
 mv -f temp-monitor /usr/local/bin/tmon
 case `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null; echo $?` in
@@ -64,21 +63,13 @@ wget -cq --show-progress https://raw.githubusercontent.com/pyavitz/scripts/maste
 mv -f swh /usr/local/bin/
 wget -cq --show-progress https://raw.githubusercontent.com/pyavitz/scripts/master/fetch
 mv -f fetch /usr/local/bin/
+wget -cq --show-progress https://raw.githubusercontent.com/pyavitz/scripts/master/governor
+mv -f governor /usr/local/bin/
 # Service
 mv -f firstboot.init /etc/init.d/firstboot
 mv -f firstboot /usr/local/sbin/
-case `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	mv -f pwrledoff /usr/local/sbin/
-	mv -f actledoff /usr/local/sbin/
-    ;;
-esac
-case `grep -Fx "bcm2710" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	mv -f pwrledoff /usr/local/sbin/
-	mv -f actledoff /usr/local/sbin/
-    ;;
-esac
+mv -f pwrledoff /usr/local/sbin/
+mv -f actledoff /usr/local/sbin/
 chmod +x /usr/bin/growpart
 chown root:root /usr/bin/growpart
 chmod +x /etc/init.d/firstboot
@@ -117,16 +108,12 @@ mkdir -p /lib/firmware
 cp -fr firmware-nonfree-master/* /lib/firmware
 rm -fdR firmware-nonfree-master
 cd /lib/firmware/brcm
-case `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	bcm_sdio_4-b
-    ;;
-esac
-case `grep -Fx "bcm2710" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	bcm_sdio_3-b-plus
-    ;;
-esac
+if `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null;`
+	then bcm_sdio_4-b ;
+fi
+if `grep -Fx "bcm2710" "/root/soc.txt" >/dev/null;`
+	then bcm_sdio_3-b-plus ;
+fi
 cd ~
 echo Done.
 
@@ -158,16 +145,12 @@ apt update
 apt install -y ${PKGS2} ${FIRMWARE}
 
 ### Network Setup
-case `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	bcm2711_network
-    ;;
-esac
-case `grep -Fx "bcm2710" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	bcm2710_network
-    ;;
-esac
+if `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null;`
+	then bcm2711_network ;
+fi
+if `grep -Fx "bcm2710" "/root/soc.txt" >/dev/null;`
+	then bcm2710_network ;
+fi
 
 ### ZSWAP
 echo
@@ -266,11 +249,9 @@ rm -fdR pi-bluetooth*
 echo Done.
 
 ### Cypress wifi firmware
-case `grep -Fx "bcm2710" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	bcm2710_cypress
-    ;;
-esac
+if `grep -Fx "bcm2710" "/root/soc.txt" >/dev/null;`
+	then bcm2710_cypress ;
+fi
 
 ### Htop
 case `grep -Fx 'DEBIAN_VERSION="unstable"' "/root/userdata.txt" >/dev/null; echo $?` in
@@ -283,16 +264,7 @@ case `grep -Fx 'DEBIAN_VERSION="unstable"' "/root/userdata.txt" >/dev/null; echo
 esac
 
 ### Upgrading bluez
-case `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	bluez_choose
-    ;;
-esac
-case `grep -Fx "bcm2710" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	bluez_choose
-    ;;
-esac
+bluez_choose
 
 ### Pianobar and Autopair
 echo
@@ -307,23 +279,12 @@ echo
 autopair_service
 
 ###  Raspi userland
-case `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	armv8_userland
-    ;;
-esac
-case `grep -Fx "bcm2710" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	armv8_userland
-    ;;
-esac
+armv8_userland
 
 ### Adding eeprom
-case `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	bcm2711_eeprom
-    ;;
-esac
+if `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null;`
+	then bcm2711_eeprom ;
+fi
 
 #### Checking for changes
 echo
@@ -348,16 +309,12 @@ apt -y clean
 apt -y autoclean
 
 ### Modules
-case `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	bcm_modules
-    ;;
-esac
-case `grep -Fx "bcm2710" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	bcm2710_modules
-    ;;
-esac
+if `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null;`
+	then bcm_modules ;
+fi
+if `grep -Fx "bcm2710" "/root/soc.txt" >/dev/null;`
+	then bcm2710_modules ;
+fi
 
 ### Admin or user
 case `grep -Fx "admin=1" "/root/userdata.txt" >/dev/null; echo $?` in
@@ -368,11 +325,9 @@ case `grep -Fx "admin=1" "/root/userdata.txt" >/dev/null; echo $?` in
 	user_config
     ;;
 esac
-case `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	eeprom_choose
-    ;;
-esac
+if `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null;`
+	then eeprom_choose ;
+fi
 
 ### Clean misc files
 rm -f *.patch
@@ -385,16 +340,7 @@ echo 'SUBSYSTEM=="vcio",GROUP="video",MODE="0660"' >> /etc/udev/rules.d/10-vchiq
 echo 'SUBSYSTEM=="vc-mem",GROUP="video",MODE="0660"' >> /etc/udev/rules.d/10-vchiq-permissions.rules
 
 #### Led switches
-case `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	led_switches
-    ;;
-esac
-case `grep -Fx "bcm2710" "/root/soc.txt" >/dev/null; echo $?` in
-  0)
-	led_switches
-    ;;
-esac
+led_switches
 
 #### Apply wifi credentials
 echo
@@ -429,6 +375,23 @@ ConditionPathExists=/usr/local/sbin/firstboot
 ExecStart=/etc/init.d/firstboot start > /dev/null 2>&1
 Type=oneshot
 RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+####
+echo
+echo Creating governor service.
+sleep 1s
+tee /etc/systemd/system/governor.service <<EOF
+[Unit]
+Description=Set Governor
+ConditionPathExists=/usr/local/bin/governor
+
+[Service]
+Type=forking
+ExecStart=/usr/local/bin/governor -r &>/dev/null
 
 [Install]
 WantedBy=multi-user.target

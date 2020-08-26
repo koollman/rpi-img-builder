@@ -1,5 +1,5 @@
 ### STAGE 1
-partition_uuid () {
+partition_uuid (){
 BOOT_UUID=$(blkid -o export -- "${IMAGE_LOOP_DEV_BOOT}" | sed -ne 's/^UUID=//p')
 ROOT_UUID=$(blkid -o export -- "${IMAGE_LOOP_DEV_ROOTFS}" | sed -ne 's/^UUID=//p')
 ROOT_PARTUUID=$(blkid -o export -- "${IMAGE_LOOP_DEV_ROOTFS}" | sed -ne 's/^PARTUUID=//p')
@@ -11,13 +11,13 @@ echo ROOT_PARTUUID='"'$ROOT_PARTUUID'"' >> part-uuid.txt
 source part-uuid.txt
 }
 
-cmdline () {
+cmdline (){
 tee p1/cmdline.txt <<EOF
 console=serial0,115200 console=tty1 root=PARTUUID=${ROOT_PARTUUID} rootfstype=ext4 elevator=deadline fsck.repair=yes logo.nologo rootwait
 EOF
 }
 
-bcm2711_config () {
+bcm2711_config (){
 tee p1/config.txt <<EOF
 arm_64bit=1
 kernel=kernel8.img
@@ -114,7 +114,7 @@ max_framebuffers=2
 EOF
 }
 
-bcm2710_config () {
+bcm2710_config (){
 tee p1/config.txt <<EOF
 arm_64bit=1
 kernel=kernel8.img
@@ -206,7 +206,7 @@ disable_splash=1
 EOF
 }
 
-rpi4_bootbins () {
+rpi4_bootbins (){
 mkdir -p firmware/boot
 wget -c -q -P firmware/boot https://github.com/raspberrypi/firmware/raw/master/boot/fixup4.dat
 wget -c -q -P firmware/boot https://github.com/raspberrypi/firmware/raw/master/boot/fixup4cd.dat
@@ -225,7 +225,7 @@ install -v -m 0644 firmware/boot/LICENCE.broadcom p1/
 install -v -m 0644 firmware/boot/COPYING.linux p1/
 }
 
-rpi_bootbins () {
+rpi_bootbins (){
 mkdir -p firmware/boot
 wget -c -q -P firmware/boot https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
 wget -c -q -P firmware/boot https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
@@ -246,26 +246,26 @@ install -v -m 0644 firmware/boot/LICENCE.broadcom p1/
 install -v -m 0644 firmware/boot/COPYING.linux p1/
 }
 
-aarch64_rootfs () {
+aarch64_rootfs (){
 tar -xf debian-${DEBIAN_VERSION}-rootfs-aarch64.tar.xz -C p2/
 }
 
 ### STAGE 2
 
 # USER CONFIG
-bcm2710_user () {
+bcm2710_user (){
 echo -n 'musicbox' > /etc/hostname
 sed -i '1 a 127.0.1.1	musicbox' /etc/hosts
 adduser ${user} --gecos "musicbox" --disabled-password
 }
 
-bcm2711_user () {
+bcm2711_user (){
 echo -n 'musicbox' > /etc/hostname
 sed -i '1 a 127.0.1.1	musicbox' /etc/hosts
 adduser ${user} --gecos "musicbox" --disabled-password
 }
 
-user_config () {
+user_config (){
 case `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null; echo $?` in
   0)
 	bcm2711_user
@@ -338,17 +338,17 @@ chown -R ${user}:${user} /home/${user}
 }
 
 # ADMIN CONFIG
-bcm2710_admin () {
+bcm2710_admin (){
 echo -n 'musicbox' > /etc/hostname
 sed -i '1 a 127.0.1.1	musicbox' /etc/hosts
 }
 
-bcm2711_admin () {
+bcm2711_admin (){
 echo -n 'musicbox' > /etc/hostname
 sed -i '1 a 127.0.1.1	musicbox' /etc/hosts
 }
 
-admin_config () {
+admin_config (){
 case `grep -Fx "bcm2711" "/root/soc.txt" >/dev/null; echo $?` in
   0)
 	bcm2711_admin
@@ -389,7 +389,7 @@ chmod +x /usr/local/bin/whogoesthere
 chown -R root:root /usr/local/bin/whogoesthere
 }
 
-user_eeprom () {
+user_eeprom (){
 echo
 echo Adding user eeprom config.
 tee /home/${user}/.eeprom <<EOF
@@ -400,7 +400,7 @@ EOF
 chown ${user}:${user} /home/${user}/.eeprom
 }
 
-admin_eeprom () {
+admin_eeprom (){
 echo
 echo Adding user eeprom config.
 tee /etc/opt/eeprom <<EOF
@@ -411,7 +411,7 @@ EOF
 chown root:root /etc/opt/eeprom
 }
 
-eeprom_choose () {
+eeprom_choose (){
 case `grep -Fx "admin=1" "/root/userdata.txt" >/dev/null; echo $?` in
   0)
 	admin_eeprom
@@ -422,15 +422,15 @@ case `grep -Fx "admin=1" "/root/userdata.txt" >/dev/null; echo $?` in
 esac
 }
 
-bcm_sdio_3-b-plus () {
+bcm_sdio_3-b-plus (){
 wget -cq --show-progress https://raw.githubusercontent.com/openwrt/cypress-nvram/master/brcmfmac43455-sdio.raspberrypi%2C3-model-b-plus.txt
 }
 
-bcm_sdio_4-b () {
+bcm_sdio_4-b (){
 wget -cq --show-progress https://raw.githubusercontent.com/openwrt/cypress-nvram/master/brcmfmac43455-sdio.raspberrypi%2C4-model-b.txt
 }
 
-bcm2711_network () {
+bcm2711_network (){
 echo
 echo Adding network configs and rules.
 sleep 1s
@@ -534,18 +534,16 @@ EOF
 echo Done.
 }
 
-bcm2710_network () {
+bcm2710_network (){
 echo
 echo Adding network configs and rules.
 sleep 1s
 rm -f /etc/network/interfaces
 mkdir -p /etc/udev/rules.d
 mv -f 80-net-setup-link.rules /etc/udev/rules.d/80-net-setup-link.rules
-case `grep -Fx 'DEBIAN_VERSION="unstable"' "/root/userdata.txt" >/dev/null; echo $?` in
-  0)
-	sed -i 's/NAME="wlan0"/NAME="eth0"/g' /etc/udev/rules.d/80-net-setup-link.rules
-    ;;
-esac
+if `grep -Fx 'DEBIAN_VERSION="unstable"' "/root/userdata.txt" >/dev/null;`
+	then sed -i 's/NAME="wlan0"/NAME="eth0"/g' /etc/udev/rules.d/80-net-setup-link.rules
+fi
 chown root:root /etc/udev/rules.d/80-net-setup-link.rules
 mv -f credentials.txt /boot/rename_to_credentials.txt
 cp -f soc.txt /etc/opt/
@@ -643,7 +641,7 @@ EOF
 echo Done.
 }
 
-bcm2710_cypress () {
+bcm2710_cypress (){
 echo
 echo Adding brcm firmware from cypress.
 sleep 1s
@@ -659,7 +657,7 @@ rm -fdr cypress
 echo Done.
 }
 
-bluez_stable () {
+bluez_stable (){
 echo
 echo Upgrading bluetooth.
 sleep 1s
@@ -677,7 +675,7 @@ apt-mark hold bluez
 echo Done.
 }
 
-bluez_unstable () {
+bluez_unstable (){
 echo
 echo Upgrading bluetooth.
 sleep 1s
@@ -695,7 +693,7 @@ apt-mark hold bluez
 echo Done.
 }
 
-bluez_choose () {
+bluez_choose (){
 case `grep -Fx 'DEBIAN_VERSION="unstable"' "/root/userdata.txt" >/dev/null; echo $?` in
   0)
 	bluez_unstable
@@ -706,7 +704,7 @@ case `grep -Fx 'DEBIAN_VERSION="unstable"' "/root/userdata.txt" >/dev/null; echo
 esac
 }
 
-bcm2711_eeprom () {
+bcm2711_eeprom (){
 echo
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 echo Checking for updates.
@@ -744,7 +742,7 @@ rm -fdr eeprom
 echo Done.
 }
 
-bcm_modules () {
+bcm_modules (){
 echo
 echo Updating etc modules.
 rm -f /etc/modules
@@ -761,7 +759,7 @@ chown root:root /etc/modules
 echo Done.
 }
 
-bcm2710_modules () {
+bcm2710_modules (){
 echo
 echo Updating etc modules.
 rm -f /etc/modules
@@ -779,7 +777,7 @@ chown root:root /etc/modules
 echo Done.
 }
 
-armv8_userland () {
+armv8_userland (){
 echo
 echo Adding raspi userland.
 rm -f /etc/profile
@@ -801,7 +799,7 @@ ldconfig
 echo Done.
 }
 
-led_switches () {
+led_switches (){
 echo
 echo Creating power led switch.
 sleep 1s
@@ -831,7 +829,7 @@ WantedBy=multi-user.target
 EOF
 }
 
-htop_stable () {
+htop_stable (){
 echo
 echo Installing htop with cpufreq and thermal support.
 sleep 1s
@@ -846,7 +844,7 @@ rm -fdr htop
 echo Done.
 }
 
-htop_unstable () {
+htop_unstable (){
 echo
 echo Installing htop with cpufreq and thermal support.
 sleep 1s
@@ -862,7 +860,7 @@ echo Done.
 }
 
 # PIANOBAR AND BLUETOOTH
-piano_bar () {
+piano_bar (){
 git clone https://github.com/PromyLOPh/pianobar.git
 cd pianobar
 make -j4
@@ -871,7 +869,7 @@ cd ~
 rm -fdr pianobar
 }
 
-libao_conf () {
+libao_conf (){
 rm -f /etc/libao.conf
 tee /etc/libao.conf <<EOF
 default_driver=alsa
@@ -881,13 +879,13 @@ EOF
 chown root:root /etc/libao.conf
 }
 
-stereo_audio () {
+stereo_audio (){
 rm -f /usr/share/pulseaudio/alsa-mixer/profile-sets/default.conf
 mv -f default.conf /usr/share/pulseaudio/alsa-mixer/profile-sets/
 chown root:root /usr/share/pulseaudio/alsa-mixer/profile-sets/default.conf
 }
 
-sed_configs () {
+sed_configs (){
 sed -i '/#Name = BlueZ/a Enable=Source,Sink,Media' /etc/bluetooth/main.conf
 sed -i 's/#Class = 0x000100/Class = 0x00041C/g' /etc/bluetooth/main.conf
 sed -i 's/#DiscoverableTimeout = 0/DiscoverableTimeout = 0/g' /etc/bluetooth/main.conf
@@ -895,13 +893,13 @@ sed -i 's/#PairableTimeout = 0/PairableTimeout = 0/g' /etc/bluetooth/main.conf
 sed -i 's/; resample-method = speex-float-1/resample-method = trivial/g' /etc/pulse/daemon.conf
 }
 
-pulseaudio_init () {
+pulseaudio_init (){
 mv -f pulseaudio.init /etc/init.d/pulseaudio
 chmod 755 /etc/init.d/pulseaudio
 update-rc.d pulseaudio defaults
 }
 
-autopair_service () {
+autopair_service (){
 mv -f auto-agent autopair bluezutils.py bluezutils.pyc BtAutoPair.py BtAutoPair.pyc testAutoPair.py /usr/local/bin/
 chmod +x /usr/local/bin/auto-agent
 chmod +x /usr/local/bin/autopair

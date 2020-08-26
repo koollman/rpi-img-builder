@@ -6,30 +6,30 @@ FIN="\e[0m"
 
 rpi3 () {
 echo
-echo -e "${RED}Downloading ...${FIN}"
+echo -e "${RED}Downloading${FIN} ..."
 wget -cq --show-progress https://github.com/pyavitz/rpi-img-builder/releases/download/linux/rpi3-stable.tar.xz
 wget -cq --show-progress https://github.com/pyavitz/rootfs-tarballs/releases/download/xlrootfs/debian-buster-rootfs-aarch64.tar.xz
-echo -e "${RED}Done.${FIN}"
+echo -e "${RED}Done${FIN}."
 echo
-echo -e "${RED}Extracting and setting up directory.${FIN}"
+echo -e "${RED}Extracting and setting up directory${FIN}."
 tar xf rpi3-stable.tar.xz
 rm -f rpi3-stable.tar.xz
 mv rpi3-stable rpi3
-echo -e "${RED}Ready.${FIN}"
+echo -e "${RED}Ready${FIN}."
 }
 
 rpi4 () {
 echo
-echo -e "${RED}Downloading ...${FIN}"
+echo -e "${RED}Downloading${FIN} ..."
 wget -cq --show-progress https://github.com/pyavitz/rpi-img-builder/releases/download/linux/rpi4-stable.tar.xz
 wget -cq --show-progress https://github.com/pyavitz/rootfs-tarballs/releases/download/xlrootfs/debian-buster-rootfs-aarch64.tar.xz
-echo -e "${RED}Done.${FIN}"
+echo -e "${RED}Done${FIN}."
 echo
-echo -e "${RED}Extracting and setting up directory.${FIN}"
+echo -e "${RED}Extracting and setting up directory${FIN}."
 tar xf rpi4-stable.tar.xz
 rm -f rpi4-stable.tar.xz
 mv rpi4-stable rpi4
-echo -e "${RED}Ready.${FIN}"
+echo -e "${RED}Ready${FIN}."
 }
 
 if [ $# -eq 0 ]
@@ -52,7 +52,7 @@ while getopts "234h" OPTION; do
                         ECHO="rpi4"
                         ;;
                 h)                       
-                        echo "Help, downloads a binary Linux package and XL rootfs tarball."
+                        echo "Helper, downloads a binary Linux package and XL rootfs tarball."
                         echo "Make sure to run 'make config' before 'make image'."
                         echo ""
                         echo -e "   make 2710        Raspberry Pi 3b/+"
@@ -63,10 +63,6 @@ while getopts "234h" OPTION; do
 
         esac
 done
-if [ $ECHO = "rpi" ]
-then
-        rpi;
-fi
 if [ $ECHO = "rpi3" ]
 then
         rpi3;

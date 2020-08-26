@@ -5,8 +5,8 @@ ADMIN=./lib/admin_config
 DIALOGRC=$(shell cp -f lib/dialogrc ~/.dialogrc)
 
 # rootfs
-RFSV8=./scripts/rootfsv8
-ROOTFSV8=sudo ./scripts/rootfsv8
+RFSV8=./scripts/rootfs
+ROOTFSV8=sudo ./scripts/rootfs
 
 # aarch64
 BCM2711=./scripts/bcm2711
@@ -26,11 +26,12 @@ HELPER=./scripts/help
 
 help:
 	@echo
-	@echo "Raspberry Pi Image Builder"
+	@echo "Debian Image Builder for the Raspberry Pi"
 	@echo
 	@echo "Usage: "
 	@echo
-	@echo "  make install-depends   Install all dependencies"
+	@echo "  make ccompile          Install all dependencies"
+	@echo "  make ncompile          Install native dependencies"
 	@echo "  make config            Create user data file"
 	@echo "  make menu              User menu interface"
 	@echo "  make cleanup           Clean up image errors"
@@ -42,31 +43,26 @@ help:
 
 commands:
 	@echo
-	@echo "Install only native dependencies"
-	@echo
-	@echo "  make install-native-depends"
-	@echo
 	@echo "Boards:"
 	@echo
-	@echo "  bcm2711                     Raspberry Pi 4B"
-	@echo "  bcm2710                     Raspberry Pi 3A/B/+"
+	@echo "  bcm2711                 Raspberry Pi 4B"
+	@echo "  bcm2710                 Raspberry Pi 3A/B/+"
 	@echo
 	@echo "bcm2711:"
 	@echo " "
-	@echo "  make kernel              Builds linux kernel"
-	@echo "  make image               Make bootable Debian image"
-	@echo "  make all                 Kernel > rootfs > image"
+	@echo "  make kernel             Builds linux kernel"
+	@echo "  make image              Make bootable Debian image"
+	@echo "  make all                Kernel > rootfs > image"
 	@echo
 	@echo "bcm2710:"
 	@echo " "
-	@echo "  make rpi3-kernel         Builds linux kernel"
-	@echo "  make rpi3-image          Make bootable Debian image"
-	@echo "  make rpi3-all            Kernel > rootfs > image"
+	@echo "  make rpi3-kernel        Builds linux kernel"
+	@echo "  make rpi3-image         Make bootable Debian image"
+	@echo "  make rpi3-all           Kernel > rootfs > image"
 	@echo
 	@echo "Root filesystem:"
 	@echo
 	@echo "  make rootfs		  arm64"
-	@echo "  make rootfsv6		  armel"
 	@echo
 	@echo "Miscellaneous:"
 	@echo
@@ -75,14 +71,14 @@ commands:
 	@echo
 
 # aarch64
-install-depends:
+ccompile:
 	# Install all dependencies:
 	sudo apt install build-essential bison bc git dialog patch \
 	dosfstools zip unzip qemu debootstrap qemu-user-static rsync \
 	kmod cpio flex libssl-dev libncurses5-dev parted fakeroot swig \
-	crossbuild-essential-arm64 crossbuild-essential-armel
+	crossbuild-essential-arm64
 
-install-native-depends:
+ncompile:
 	# Install all dependencies:
 	sudo apt install build-essential bison bc git dialog patch \
 	dosfstools zip unzip qemu debootstrap qemu-user-static rsync \
@@ -102,7 +98,7 @@ image:
 	@${IMAGE}
 
 all:
-	# RPi4B | AARCH64
+	# RPi4B | aarch64
 	# - - - - - - - -
 	#
 	# Building linux
@@ -136,7 +132,7 @@ rpi3-image:
 	@${IMAGE}
 
 rpi3-all:
-	# RPi3B/+ | AARCH64
+	# RPi3A/B/+ | aarch64
 	# - - - - - - - -
 	#
 	# Building linux
