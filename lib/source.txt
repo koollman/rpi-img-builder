@@ -24,7 +24,7 @@ PKGS2="cpu hwinfo haveged resolvconf git build-essential net-tools ifplugd \
 	openssh-client openssh-server ntfs-3g bc zram-tools libncursesw5-dev \
 	libssl-dev autopoint autoconf automake pkg-config libtool fake-hwclock \
 	python-pyaudio python-dbus avahi-utils libao-dev libcurl4-openssl-dev \
-	libgcrypt20-dev libgcrypt20 libjson-c-dev libavfilter-dev npm libao4 \
+	libgcrypt20-dev libgcrypt20 libjson-c-dev libavfilter-dev npm libao4 pv \
 	libao-common screen pulseaudio pulseaudio-module-bluetooth python-pexpect"
 
 FIRMWARE="firmware-linux"
