@@ -16,7 +16,7 @@ IMGSIZE_UNSTABLE="2750MB"
 
 PKGS1="tzdata keyboard-configuration sudo man-db dbus initramfs-tools \
 	e2fsprogs fonty-rg patch curl wget apt-transport-https dirmngr \
-	cmake rsync psmisc"
+	cmake rsync psmisc distro-info-data lsb-release"
 
 PKGS2="cpu hwinfo haveged resolvconf git build-essential net-tools ifplugd \
 	fuse wpasupplicant wireless-tools usbutils alsa-utils gettext \
@@ -30,7 +30,21 @@ PKGS2="cpu hwinfo haveged resolvconf git build-essential net-tools ifplugd \
 FIRMWARE="firmware-linux"
 
 # https://archive.raspberrypi.org/debian/pool/main/r/rpi-eeprom/
-EEPROM_VERSION="10.1"
+EEPROM_VERSION="10.3"
 
 # motd
 BRAND="Musicbox"
+
+fetch_version(){
+echo 'INSTALLED_KERNEL="' > /root/kernel1
+cat /usr/src/linux-headers*/include/config/kernel.release > /root/kernel2
+echo '"' > /root/kernel3
+paste -d '\0' kernel1 kernel2 kernel3  > /root/kernel.txt
+rm -f kernel1 kernel2 kernel3
+}
+
+compress_image(){
+source kernel.txt
+mv -f ${DEVICE_SOC}-musicbox-debian-${DEBIAN_VERSION}-${IMAGE_DATE}.img ${DEVICE_SOC}-musicbox-debian-${DEBIAN_VERSION}-${INSTALLED_KERNEL}-${IMAGE_DATE}.img
+xz -zevk --threads=${CORES} ${DEVICE_SOC}-musicbox-debian-${DEBIAN_VERSION}-${INSTALLED_KERNEL}-${IMAGE_DATE}.img
+}
