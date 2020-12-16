@@ -256,13 +256,13 @@ tar -xf debian-${DEBIAN_VERSION}-rootfs-aarch64.tar.xz -C p2/
 bcm2710_user (){
 echo -n 'musicbox' > /etc/hostname
 sed -i '1 a 127.0.1.1	musicbox' /etc/hosts
-adduser ${user} --gecos "musicbox" --disabled-password
+adduser ${user} --gecos ${user^} --disabled-password
 }
 
 bcm2711_user (){
 echo -n 'musicbox' > /etc/hostname
 sed -i '1 a 127.0.1.1	musicbox' /etc/hosts
-adduser ${user} --gecos "musicbox" --disabled-password
+adduser ${user} --gecos ${user^} --disabled-password
 }
 
 user_config (){

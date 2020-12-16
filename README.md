@@ -171,8 +171,8 @@ GATEWAY=" "			# Your Gateway
 NAMESERVERS=" "			# Your preferred dns
 
 CHANGE=n			# Set to y to enable
-HOSTNAME="musicbox"
-BRANDING="Musicbox"
+HOSTNAME="musicbox"		# Set the system's host name
+BRANDING="Musicbox"		# Set ASCII text banner
 
 For headless use: ssh user@ipaddress
 
