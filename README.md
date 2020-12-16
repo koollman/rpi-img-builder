@@ -170,6 +170,10 @@ NETMASK=" "			# Your Netmask
 GATEWAY=" "			# Your Gateway
 NAMESERVERS=" "			# Your preferred dns
 
+CHANGE=n			# Set to y to enable
+HOSTNAME="musicbox"
+BRANDING="Musicbox"
+
 For headless use: ssh user@ipaddress
 
 Note:
