@@ -208,6 +208,7 @@ EOF
 
 rpi4_bootbins(){
 mkdir -p firmware/boot
+rm -f firmware/boot/*
 wget -c -q -P firmware/boot https://github.com/raspberrypi/firmware/raw/master/boot/fixup4.dat
 wget -c -q -P firmware/boot https://github.com/raspberrypi/firmware/raw/master/boot/fixup4cd.dat
 wget -c -q -P firmware/boot https://github.com/raspberrypi/firmware/raw/master/boot/fixup4db.dat
@@ -227,6 +228,7 @@ install -v -m 0644 firmware/boot/COPYING.linux p1/
 
 rpi_bootbins(){
 mkdir -p firmware/boot
+rm -f firmware/boot/*
 wget -c -q -P firmware/boot https://github.com/raspberrypi/firmware/raw/master/boot/bootcode.bin
 wget -c -q -P firmware/boot https://github.com/raspberrypi/firmware/raw/master/boot/fixup.dat
 wget -c -q -P firmware/boot https://github.com/raspberrypi/firmware/raw/master/boot/fixup_cd.dat
