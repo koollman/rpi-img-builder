@@ -30,7 +30,7 @@ PKGS2="cpu hwinfo haveged resolvconf git build-essential net-tools ifplugd \
 FIRMWARE="firmware-linux"
 
 # https://archive.raspberrypi.org/debian/pool/main/r/rpi-eeprom/
-EEPROM_VERSION="10.3"
+EEPROM_VERSION="11.5"
 
 # motd
 BRAND="Musicbox"
